@@ -5,7 +5,7 @@ const PORT = process.env.PORT || 8000;
 const menuData = require("./menu.json");
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.get("/api/menu", (req, res) => {
   res.json(menuData);
 });
 
