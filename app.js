@@ -2,12 +2,11 @@ const express = require("express");
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-const menuData = require("./menu.json");
+const beansRouter = require("./routes/beansRouter");
+
 app.use(express.json());
 
-app.get("/api/beans", (req, res) => {
-  res.json(menuData);
-});
+app.use("/api/beans", beansRouter);
 
 app.listen(PORT, () => {
   console.log("Server started");
@@ -15,8 +14,8 @@ app.listen(PORT, () => {
 
 /*
 beans
-/api/beans/                         - GET menu
-/api/beans/order                    - POST lägg till order
+/api/beans/                         x GET menu
+/api/beans/order                    x GET + POST lägg till order
 /api/beans/order/status/:orderNr    - GET pågående beställning inloggad eller gäst
 
 user
