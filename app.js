@@ -8,9 +8,6 @@ const menuData = require('./menu.json');
 app.use(express.json());
 
 app.use('/api/beans', beansRouter);
-app.get('/api/beans', (req, res) => {
-  res.json(menuData);
-});
 
 app.use('/api/user', userRouter);
 app.use('/api/user', userRouter);
@@ -25,7 +22,6 @@ beans
 /api/beans/                         x GET menu
 /api/beans/order                    x GET + POST lägg till order
 /api/beans/order/status/:orderNr    - GET pågående beställning inloggad eller gäst
-
 user
 /api/user/signup         - POST skapa konto
 /api/user/login          - POST logga in
