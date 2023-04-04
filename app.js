@@ -29,5 +29,5 @@ beans
 user
 /api/user/signup         - POST skapa konto
 /api/user/login          - POST logga in
-/api/user/history        - GET inloggad orderhistorik
+/api/user/:user_id/order_history        - GET inloggad orderhistorik
 */
