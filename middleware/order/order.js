@@ -1,6 +1,5 @@
-const menuData = require("../menu.json");
+const menuData = require("../../menu.json");
 const menu = menuData.menu;
-let order = [];
 
 function checkBody(req, res, next) {
   const body = req.body;
@@ -42,6 +41,17 @@ function checkValidItem(req, res, next) {
   }
 }
 
-//delete item:
+//not working
+function validateID(req, res, next) {
+  // const id = req.body._id;
+  const id = req.params.id;
 
-module.exports = { checkBody, checkValidItem, order };
+  if (id) {
+    next();
+  } else {
+    console.log('err')
+    res.status(400).json({ success: false, msg: "Invalid ID input" });
+  }
+}
+
+module.exports = { checkBody, checkValidItem, validateID };

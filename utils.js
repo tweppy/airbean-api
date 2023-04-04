@@ -1,6 +1,8 @@
-let { order } = require("./middleware/order");
+let { database } = require("./model/beans/orderModel");
 
-function getTotalSum() {
+async function getTotalSum() {
+  const order = await database.find({ price: { $gt: 1 } });
+
   if (order.length > 0) {
     const sum = order
       .map((item) => item.price)

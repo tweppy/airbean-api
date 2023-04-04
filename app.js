@@ -16,9 +16,9 @@ const {
 } = require('./middleware/users/user');
 const { signupUser, loginUser } = require('./controllers/users/user');
 
-app.get('/api/beans', (req, res) => {
-  res.json(menuData);
-});
+// app.get('/api/beans', (req, res) => {
+//   res.json(menuData);
+// });
 
 app.post('/api/user/signup', checkUsernameAndEmail, signupUser);
 app.post('/api/user/login', checkUserAndPassword, loginUser);
