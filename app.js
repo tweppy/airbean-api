@@ -13,7 +13,7 @@ const menuData = require('./menu.json');
 const {
   checkUsernameAndEmail,
   checkUserAndPassword,
-} = require('./middlewares/users/user');
+} = require('./middleware/users/user');
 const { signupUser, loginUser } = require('./controllers/users/user');
 app.use(express.json());
 
