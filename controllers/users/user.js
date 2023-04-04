@@ -14,7 +14,6 @@ function signupUser(req, res) {
       email,
       password,
       user_id: uuidv4(),
-      order_history: [],
     });
     res.status(200).json(result);
   } else {
