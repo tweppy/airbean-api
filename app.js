@@ -15,7 +15,6 @@ const {
   checkUserAndPassword,
 } = require('./middleware/users/user');
 const { signupUser, loginUser } = require('./controllers/users/user');
-app.use(express.json());
 
 app.get('/api/beans', (req, res) => {
   res.json(menuData);
