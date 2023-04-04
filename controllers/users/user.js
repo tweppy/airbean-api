@@ -14,7 +14,6 @@ function signupUser(req, res) {
       email,
       password,
       user_id: uuidv4(),
-      order_history: [],
     });
     res.status(200).json(result);
   } else {
@@ -48,5 +47,23 @@ async function loginUser(req, res) {
   };
   return res.status(200).json(result);
 }
-
-module.exports = { signupUser, loginUser };
+async function userOrderHistory(req, res) {
+  const user_id = await req.params.user_id;
+  const users = await getAllUsers();
+  const findUser = await users.find((user) => user.user_id === user_id);
+  if (findUser) {
+    const result = {
+      status: true,
+      user_id: findUser?.user_id,
+      order_history: findUser?.order_history,
+    };
+    res.status(200).json(result);
+  } else {
+    const result = {
+      status: false,
+      message: 'User authentication failed! ⛔️',
+    };
+    res.status(400).json(result);
+  }
+}
+module.exports = { signupUser, loginUser, userOrderHistory };

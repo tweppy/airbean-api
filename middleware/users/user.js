@@ -37,4 +37,17 @@ async function checkUserAndPassword(req, res, next) {
     return res.status(400).json(result);
   }
 }
-module.exports = { checkUsernameAndEmail, checkUserAndPassword };
+
+function checkUserID(req, res, next) {
+  const user_id = req.params.user_id;
+  if (user_id) {
+    next();
+  } else {
+    const result = {
+      status: true,
+      message: 'Please enter a valid ID',
+    };
+    res.status(200).json(result);
+  }
+}
+module.exports = { checkUsernameAndEmail, checkUserAndPassword, checkUserID };
