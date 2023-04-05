@@ -4,6 +4,7 @@ const {
   removeItem,
 } = require('../../model/beans/orderModel');
 const getTotalSum = require('../../utils');
+const { v4: uuidv4 } = require('uuid');
 
 //get
 async function get(req, res) {
@@ -15,8 +16,12 @@ async function get(req, res) {
 //add
 async function add(req, res) {
   const { title, price } = req.body;
+  await addToOrder({
+    ...req.body,
+    order_number: uuidv4(),
+    date: new Date().toISOString(), // ! TEST
+  });
   const fullOrder = await getOrder();
-  await addToOrder(req.body);
 
   const result = {
     success: true,
@@ -37,7 +42,7 @@ async function remove(req, res) {
 function placeOrderAsLoginUser(req, res) {
   const { user_id, title, price } = req.body;
 
-  addToOrder({ user_id, title, price });
+  addToOrder({ user_id, order_number: uuidv4(), title, price });
 
   const result = {
     success: true,
@@ -49,4 +54,8 @@ function placeOrderAsLoginUser(req, res) {
   res.status(200).json(result);
 }
 
-module.exports = { get, add, remove, placeOrderAsLoginUser };
+function getETA(req, res) {
+  res.status(200).json({ success: true });
+}
+
+module.exports = { get, add, remove, placeOrderAsLoginUser, getETA };

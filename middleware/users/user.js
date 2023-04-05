@@ -23,6 +23,7 @@ async function checkUsernameAndEmail(req, res, next) {
 async function checkUserAndPassword(req, res, next) {
   const { username, email, password } = await req.body;
   const users = await getAllUsers();
+  console.log(users);
   for (const user of users) {
     if (
       (username === user.username || email === user.email) &&
@@ -30,12 +31,12 @@ async function checkUserAndPassword(req, res, next) {
     ) {
       return next();
     }
-    const result = {
-      status: false,
-      message: 'User not found! ⛔️',
-    };
-    return res.status(400).json(result);
   }
+  const result = {
+    status: false,
+    message: 'User not found! ⛔️',
+  };
+  return res.status(400).json(result);
 }
 
 async function checkUserID(req, res, next) {

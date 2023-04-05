@@ -1,9 +1,5 @@
-{"user_id":"a8962619-b5d8-4d40-bdb6-b648fbe2369a","title":"Bryggkaffe","price":39,"_id":"20YoFWws0mc1rpgR"}
-{"title":"Bryggkaffe","price":39,"_id":"81K1UOetJuXGFgET"}
-{"user_id":"a8962619-b5d8-4d40-bdb6-b648fbe2369a","title":"Bryggkaffe","price":39,"_id":"F9G2U3cffpbuDKRL"}
-{"user_id":"a8962619-b5d8-4d40-bdb6-b648fbe2369a","title":"Bryggkaffe","price":39,"_id":"bSgOV7NJL147sAhS"}
-{"user_id":"a8962619-b5d8-4d40-bdb6-b648fbe2369a","title":"Bryggkaffe","price":39,"_id":"dEbBYF6ReAtEkJaP"}
-{"user_id":"a8962619-b5d8-4d40-bdb6-b648fbe2369a","title":"Bryggkaffe","price":39,"_id":"iEZMGJH31coSRSlx"}
-{"user_id":"a8962619-b5d8-4d40-bdb6-b648fbe2369a","title":"Bryggkaffe","price":39,"_id":"m23AdDPU4dhfeUub"}
-{"user_id":"a8962619-b5d8-4d40-bdb6-b648fbe2369a","title":"Bryggkaffe","price":39,"_id":"wMoJ01HtodnExY3f"}
-{"title":"Bryggkaffe","price":39,"_id":"3J5KPG7kPPNawYFf"}
+{"title":"Caffè Doppio","price":49,"order_number":"30f49f3b-dfef-4367-aa79-b58551f170f6","date":"2023-04-05T14:33:45.978Z","_id":"N3uoL2IQSGl3xT2m"}
+{"title":"Caffè Doppio","price":49,"order_number":"fd81d090-97aa-4a1c-a37d-a1fbbe2ec21f","date":"2023-04-05T14:33:35.679Z","_id":"OvMJmB5XZr4MuQQm"}
+{"title":"Caffè Doppio","price":49,"order_number":"49217267-d476-4082-ad07-8c32433f4eeb","date":{"$$date":1680705436895},"_id":"hIURe4WPwiihQpzA"}
+{"title":"Caffè Doppio","price":49,"order_number":"38a134c8-bcd3-4709-809b-e7a0a354a251","date":{"$$date":1680705445049},"_id":"sLo6P9jH1EADVTao"}
+{"title":"Caffè Doppio","price":49,"order_number":"99267a1f-f5a3-49ed-aca5-fb90cd3a0320","date":"2023-04-05T14:37:14.861Z","_id":"xXNZPnbRGHSNHseN"}

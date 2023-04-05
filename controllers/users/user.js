@@ -62,7 +62,6 @@ async function userOrderHistory(req, res) {
     const result = {
       status: true,
       user_id: findUser?.user_id,
-      // user_id: findUser[0]?.user_id,
       total_orders: findOrderHistory.length,
       total_spending: totalSpending,
       order_history: findOrderHistory,
