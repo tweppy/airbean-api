@@ -1,12 +1,6 @@
 const { database } = require('../../model/beans/orderModel');
-const { getOrder } = require('../../model/beans/orderModel');
-const {
-  insertUserToDatabase,
-  getAllUsers,
-  userDatabase,
-} = require('../../model/users/user');
-
 const { v4: uuidv4 } = require('uuid');
+const { insertUserToDatabase, getAllUsers } = require('../../model/users/user');
 
 function signupUser(req, res) {
   const { username, email, password } = req.body;
@@ -55,17 +49,22 @@ async function loginUser(req, res) {
 }
 
 async function userOrderHistory(req, res) {
-  const user_id = await req.params.user_id;
+  const { user_id } = await req.params;
   const users = await getAllUsers();
-  // const findUser = await userDatabase.find({ user_id: user_id });
   const findUser = await users.find((user) => user.user_id === user_id);
   const findOrderHistory = await database.find({ user_id: user_id });
+  const totalSpending = findOrderHistory.reduce(
+    (accumulator, currentValue) => accumulator + currentValue.price,
+    0
+  );
 
   if (findUser) {
     const result = {
       status: true,
       user_id: findUser?.user_id,
       // user_id: findUser[0]?.user_id,
+      total_orders: findOrderHistory.length,
+      total_spending: totalSpending,
       order_history: findOrderHistory,
     };
     res.status(200).json(result);

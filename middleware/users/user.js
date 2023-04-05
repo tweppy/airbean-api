@@ -39,9 +39,27 @@ async function checkUserAndPassword(req, res, next) {
 }
 
 async function checkUserID(req, res, next) {
-  const user_id = await req.params.user_id;
+  const { user_id, title, price } = await req.body;
   const users = await getAllUsers();
   const findUser = await users.find((user) => user.user_id === user_id);
+
+  if (findUser && user_id && title && price) {
+    next();
+  } else {
+    const result = {
+      status: false,
+      user: 'Denied',
+      message: 'Invalid user-ID! ⛔️',
+    };
+    res.status(401).json(result);
+  }
+}
+
+async function checkValidUserID(req, res, next) {
+  const { user_id } = await req.params;
+  const users = await getAllUsers();
+  const findUser = await users.find((user) => user.user_id === user_id);
+
   if (findUser) {
     next();
   } else {
@@ -53,4 +71,9 @@ async function checkUserID(req, res, next) {
     res.status(401).json(result);
   }
 }
-module.exports = { checkUsernameAndEmail, checkUserAndPassword, checkUserID };
+module.exports = {
+  checkUsernameAndEmail,
+  checkUserAndPassword,
+  checkUserID,
+  checkValidUserID,
+};

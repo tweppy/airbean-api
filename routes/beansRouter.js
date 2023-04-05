@@ -18,7 +18,7 @@ router.get('/', (req, res) => {
 });
 router.get('/order', get);
 router.post('/order', checkBody, checkValidItem, add);
-router.post('/:user_id/order', checkUserID, placeOrderAsLoginUser);
+router.post('/order/checkout', checkUserID, placeOrderAsLoginUser);
 //validateID not working when no param
 router.delete('/order/:id', validateID, remove);
 

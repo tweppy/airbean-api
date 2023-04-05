@@ -35,15 +35,14 @@ async function remove(req, res) {
 }
 
 function placeOrderAsLoginUser(req, res) {
-  const user_id = req.params.user_id;
-  const { title, price } = req.body;
+  const { user_id, title, price } = req.body;
 
   addToOrder({ user_id, title, price });
 
   const result = {
     success: true,
     signed_in: true,
-    user_id: user_id,
+    user_id,
     title,
     price,
   };
