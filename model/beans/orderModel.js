@@ -1,11 +1,11 @@
-const nedb = require("nedb-promises");
-const database = new nedb({ filename: "./database/order.db", autoload: true });
+const nedb = require('nedb-promises');
+const database = new nedb({ filename: './database/order.db', autoload: true });
 async function getOrder() {
   return await database.find({});
 }
 
-async function addToOrder(title, price) {
-  return await database.insert({ title: title, price: price });
+async function addToOrder(order) {
+  return await database.insert(order);
 }
 
 async function removeItem(id) {
@@ -18,13 +18,17 @@ async function removeItem(id) {
       msg: `Item with id: "${id}" removed from order`,
       order: order,
     };
-
   } else {
     return {
       success: false,
-      msg: "Item not found",
+      msg: 'Item not found',
     };
   }
 }
 
-module.exports = { getOrder, addToOrder, removeItem, database };
+module.exports = {
+  getOrder,
+  addToOrder,
+  removeItem,
+  database,
+};

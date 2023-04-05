@@ -1,4 +1,4 @@
-const menuData = require("../../menu.json");
+const menuData = require('../../menu.json');
 const menu = menuData.menu;
 
 function checkBody(req, res, next) {
@@ -9,9 +9,9 @@ function checkBody(req, res, next) {
   } else {
     const result = {
       success: false,
-      error: "Invalid body input",
-      hasTitle: body.hasOwnProperty("title"),
-      hasPrice: body.hasOwnProperty("price"),
+      error: 'Invalid body input',
+      hasTitle: body.hasOwnProperty('title'),
+      hasPrice: body.hasOwnProperty('price'),
     };
 
     res.status(400).json(result);
@@ -20,9 +20,7 @@ function checkBody(req, res, next) {
 
 function checkValidItem(req, res, next) {
   const body = req.body;
-
   const productExists = menu.some((product) => product.title === body.title);
-
   const validPrice = menu.some(
     (product) => product.title === body.title && product.price === body.price
   );
@@ -32,7 +30,7 @@ function checkValidItem(req, res, next) {
   } else {
     const result = {
       success: false,
-      error: "Invalid order",
+      error: 'Invalid order',
       productExists: productExists,
       validPrice: validPrice,
     };
@@ -49,8 +47,8 @@ function validateID(req, res, next) {
   if (id) {
     next();
   } else {
-    console.log('err')
-    res.status(400).json({ success: false, msg: "Invalid ID input" });
+    console.log('err');
+    res.status(400).json({ success: false, msg: 'Invalid ID input' });
   }
 }
 

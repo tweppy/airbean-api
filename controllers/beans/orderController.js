@@ -1,5 +1,9 @@
-const { getOrder, addToOrder, removeItem } = require("../../model/beans/orderModel");
-const getTotalSum = require("../../utils");
+const {
+  getOrder,
+  addToOrder,
+  removeItem,
+} = require('../../model/beans/orderModel');
+const getTotalSum = require('../../utils');
 
 //get
 async function get(req, res) {
@@ -12,8 +16,8 @@ async function get(req, res) {
 async function add(req, res) {
   const { title, price } = req.body;
   const fullOrder = await getOrder();
-  await addToOrder(title, price);
-  
+  await addToOrder(req.body);
+
   const result = {
     success: true,
     order: fullOrder,
@@ -30,4 +34,20 @@ async function remove(req, res) {
   res.json(result);
 }
 
-module.exports = { get, add, remove };
+function placeOrderAsLoginUser(req, res) {
+  const user_id = req.params.user_id;
+  const { title, price } = req.body;
+
+  addToOrder({ user_id, title, price });
+
+  const result = {
+    success: true,
+    signed_in: true,
+    user_id: user_id,
+    title,
+    price,
+  };
+  res.status(200).json(result);
+}
+
+module.exports = { get, add, remove, placeOrderAsLoginUser };

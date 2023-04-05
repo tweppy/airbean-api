@@ -4,14 +4,11 @@ const PORT = process.env.PORT || 8000;
 
 const beansRouter = require('./routes/beansRouter');
 const userRouter = require('./routes/userRouter');
-const menuData = require('./menu.json');
 app.use(express.json());
 
 app.use('/api/beans', beansRouter);
-
+app.use('/api/user', beansRouter);
 app.use('/api/user', userRouter);
-app.use('/api/user', userRouter);
-app.get('/api/user', userRouter);
 
 app.listen(PORT, () => {
   console.log('Server started');

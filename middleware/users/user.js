@@ -38,16 +38,19 @@ async function checkUserAndPassword(req, res, next) {
   }
 }
 
-function checkUserID(req, res, next) {
-  const user_id = req.params.user_id;
-  if (user_id) {
+async function checkUserID(req, res, next) {
+  const user_id = await req.params.user_id;
+  const users = await getAllUsers();
+  const findUser = await users.find((user) => user.user_id === user_id);
+  if (findUser) {
     next();
   } else {
     const result = {
-      status: true,
-      message: 'Please enter a valid ID',
+      status: false,
+      user: 'Denied',
+      message: 'Invalid user-ID! ⛔️',
     };
-    res.status(200).json(result);
+    res.status(401).json(result);
   }
 }
 module.exports = { checkUsernameAndEmail, checkUserAndPassword, checkUserID };
