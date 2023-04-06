@@ -2,8 +2,9 @@ const {
   getOrder,
   addToOrder,
   removeItem,
+  database,
 } = require('../../model/beans/orderModel');
-const getTotalSum = require('../../utils');
+const { getTotalSum, createETA } = require('../../utils');
 const { v4: uuidv4 } = require('uuid');
 
 //get
@@ -16,10 +17,12 @@ async function get(req, res) {
 //add
 async function add(req, res) {
   const { title, price } = req.body;
+
   await addToOrder({
     ...req.body,
     order_number: uuidv4(),
     date: new Date().toISOString(), // ! TEST
+    eta: createETA(),
   });
   const fullOrder = await getOrder();
 
@@ -42,7 +45,7 @@ async function remove(req, res) {
 function placeOrderAsLoginUser(req, res) {
   const { user_id, title, price } = req.body;
 
-  addToOrder({ user_id, order_number: uuidv4(), title, price });
+  addToOrder({ user_id, order_number: uuidv4(), title, price }); // ! lägg till ETA och DATUM
 
   const result = {
     success: true,
@@ -54,8 +57,21 @@ function placeOrderAsLoginUser(req, res) {
   res.status(200).json(result);
 }
 
-function getETA(req, res) {
-  res.status(200).json({ success: true });
+async function getOrderInformation(req, res) {
+  const { order_number } = req.params;
+  const findOrder = await database.find({ order_number: order_number });
+  const result = {
+    success: true,
+    order_number: findOrder[0].order_number,
+    eta: findOrder[0].eta,
+  };
+  res.status(200).json(result);
 }
 
-module.exports = { get, add, remove, placeOrderAsLoginUser, getETA };
+module.exports = {
+  get,
+  add,
+  remove,
+  placeOrderAsLoginUser,
+  getOrderInformation,
+};

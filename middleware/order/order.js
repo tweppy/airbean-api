@@ -58,7 +58,6 @@ async function checkOrderNumber(req, res, next) {
   const findOrderNumber = await database.findOne({
     order_number: order_number,
   });
-
   if (findOrderNumber) {
     next();
   } else {
