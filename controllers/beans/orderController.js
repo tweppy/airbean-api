@@ -21,7 +21,7 @@ async function add(req, res) {
   await addToOrder({
     ...req.body,
     order_number: uuidv4(),
-    date: new Date().toISOString(), // ! TEST
+    date: new Date().toLocaleString('sv-SE'),
     eta: createETA(),
   });
   const fullOrder = await getOrder();
@@ -45,7 +45,8 @@ async function remove(req, res) {
 function placeOrderAsLoginUser(req, res) {
   const { user_id, title, price } = req.body;
   const eta = createETA();
-  const date = new Date().toISOString();
+  const date = new Date().toLocaleString('sv-SE');
+
   addToOrder({
     user_id,
     order_number: uuidv4(),
