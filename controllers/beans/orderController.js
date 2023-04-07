@@ -20,8 +20,9 @@ async function add(req, res) {
 
   await addToOrder({
     ...req.body,
+    user_id: 'Guest',
     order_number: uuidv4(),
-    date: new Date().toLocaleString('sv-SE'),
+    order_date: new Date().toLocaleString('sv-SE'),
     eta: createETA(),
   });
   const fullOrder = await getOrder();
@@ -45,14 +46,14 @@ async function remove(req, res) {
 function placeOrderAsLoginUser(req, res) {
   const { user_id, title, price } = req.body;
   const eta = createETA();
-  const date = new Date().toLocaleString('sv-SE');
+  const order_date = new Date().toLocaleString('sv-SE');
 
   addToOrder({
     user_id,
     order_number: uuidv4(),
     title,
     price,
-    date,
+    order_date,
     eta,
   });
 
@@ -61,7 +62,7 @@ function placeOrderAsLoginUser(req, res) {
     signed_in: true,
     user_id,
     eta,
-    date,
+    order_date,
     order: { title, price },
   };
   res.status(200).json(result);
@@ -74,7 +75,7 @@ async function getOrderInformation(req, res) {
     success: true,
     order_number: findOrder[0].order_number,
     eta: findOrder[0].eta,
-    date: findOrder[0].date,
+    order_date: findOrder[0].order_date,
   };
   res.status(200).json(result);
 }
