@@ -28,33 +28,76 @@ async function removeItem(id) {
   }
 }
 
-async function updateDeliveryETA() {
-  const allOrders = await getOrder();
-  const orderBeenDelivered = 0;
+// async function updateDeliveryETA() {
+//   const allOrders = await getOrder();
+//   const orderBeenDelivered = 0;
 
-  for (const order of allOrders) {
-    const countdownETAOneMinute = order.eta - 1;
-    if (countdownETAOneMinute > orderBeenDelivered) {
-      await database.update(
-        { order_number: order.order_number },
-        { $set: { eta: countdownETAOneMinute } },
-        {}
-      );
-    }
-    if (countdownETAOneMinute === orderBeenDelivered) {
-      await database.update(
-        { order_number: order.order_number },
-        { $set: { eta: 'Delivered' } },
-        {}
-      );
-    }
-  }
+//   for (const order of allOrders) {
+//     const countdownETAOneMinute = order.eta - 1;
+//     if (countdownETAOneMinute > orderBeenDelivered) {
+//       await database.update(
+//         { order_number: order.order_number },
+//         { $set: { eta: countdownETAOneMinute } },
+//         {}
+//       );
+//     }
+//     if (countdownETAOneMinute === orderBeenDelivered) {
+//       await database.update(
+//         { order_number: order.order_number },
+//         { $set: { eta: 'Delivered' } },
+//         {}
+//       );
+//     }
+//   }
+// }
+// setInterval(updateDeliveryETA, ONE_MINUTE); // update status of ETA every one minute
+
+// ! TEST
+
+async function ETA_stamp(orderDatePlaced, ETA) {
+  const allOrders = await getOrder();
+  const etaFromOrder = ETA * 1000 * 60; // convert it from minutes to milliseconds
+  const order_date_milliseconds = new Date(orderDatePlaced).getTime(); // returns the timestamp in milliseconds from the order
+  const currentTimeInMilliseconds = Date.now(); // current timestamp in milliseconds
+  const timestampFromOrderPlacedToCurrentTime = Math.floor(
+    order_date_milliseconds + etaFromOrder - currentTimeInMilliseconds
+  );
+
+  console.log('eta from placed order', ETA);
+  console.log('placed', order_date_milliseconds);
+  console.log('now   ', currentTimeInMilliseconds);
+  console.log('diffrence in millisec', timestampFromOrderPlacedToCurrentTime);
+
+  // convert milliseconds to minutes
+  let gapInMinutes = Math.floor(
+    timestampFromOrderPlacedToCurrentTime / (1000 * 60)
+  );
+  console.log('gapInMinutes', gapInMinutes);
+
+  // for (const order of allOrders) {
+  //   if (ETA > gapInMinutes) {
+  //     console.log('gapInMinutes > ETA', gapInMinutes);
+  //     await database.update(
+  //       { order_number: order.order_number },
+  //       { $set: { eta: gapInMinutes } },
+  //       {}
+  //     );
+  //   }
+  //   if (gapInMinutes <= 0) {
+  //     console.log('gapInMinutes <= 0', gapInMinutes);
+  //     await database.update(
+  //       { order_number: order.order_number },
+  //       { $set: { eta: 'Delivered' } },
+  //       {}
+  //     );
+  //   }
+  // }
 }
-setInterval(updateDeliveryETA, ONE_MINUTE); // update status of ETA every one minute
 
 module.exports = {
   getOrder,
   addToOrder,
   removeItem,
   database,
+  ETA_stamp, // ! test
 };

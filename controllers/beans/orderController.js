@@ -3,8 +3,10 @@ const {
   addToOrder,
   removeItem,
   database,
+  ETA_stamp,
 } = require('../../model/beans/orderModel');
 const { getTotalSum, createETA } = require('../../utils');
+
 const { v4: uuidv4 } = require('uuid');
 
 //get
@@ -17,22 +19,27 @@ async function get(req, res) {
 //add
 async function add(req, res) {
   const { title, price } = req.body;
+  const order_date = new Date().toLocaleString('sv-SE');
+  const eta = createETA();
 
   await addToOrder({
     ...req.body,
     user_id: 'Guest',
     order_number: uuidv4(),
-    order_date: new Date().toLocaleString('sv-SE'),
-    eta: createETA(),
+    // order_date: new Date().toLocaleString('sv-SE'),
+    // eta: createETA(),
+    order_date,
+    eta: eta,
   });
-  const fullOrder = await getOrder();
 
+  await ETA_stamp(order_date, eta); // ! TEST
+
+  const fullOrder = await getOrder();
   const result = {
     success: true,
     order: fullOrder,
     msg: `${title} added to order`,
   };
-
   res.json(result);
 }
 
@@ -46,7 +53,9 @@ async function remove(req, res) {
 function placeOrderAsLoginUser(req, res) {
   const { user_id, title, price } = req.body;
   const eta = createETA();
-  const order_date = new Date().toLocaleString('sv-SE');
+  // const order_date = new Date().toLocaleString('sv-SE');
+  // const order_date = new Date().toISOString('sv-SE');
+  const order_date = new Date().toISOString();
 
   addToOrder({
     user_id,
