@@ -28,70 +28,41 @@ async function removeItem(id) {
   }
 }
 
-// async function updateDeliveryETA() {
-//   const allOrders = await getOrder();
-//   const orderBeenDelivered = 0;
-
-//   for (const order of allOrders) {
-//     const countdownETAOneMinute = order.eta - 1;
-//     if (countdownETAOneMinute > orderBeenDelivered) {
-//       await database.update(
-//         { order_number: order.order_number },
-//         { $set: { eta: countdownETAOneMinute } },
-//         {}
-//       );
-//     }
-//     if (countdownETAOneMinute === orderBeenDelivered) {
-//       await database.update(
-//         { order_number: order.order_number },
-//         { $set: { eta: 'Delivered' } },
-//         {}
-//       );
-//     }
-//   }
-// }
-// setInterval(updateDeliveryETA, ONE_MINUTE); // update status of ETA every one minute
-
-// ! TEST
-
-async function ETA_stamp(orderDatePlaced, ETA) {
+async function updateDeliveryETA() {
   const allOrders = await getOrder();
-  const etaFromOrder = ETA * 1000 * 60; // convert it from minutes to milliseconds
-  const order_date_milliseconds = new Date(orderDatePlaced).getTime(); // returns the timestamp in milliseconds from the order
-  const currentTimeInMilliseconds = Date.now(); // current timestamp in milliseconds
-  const timestampFromOrderPlacedToCurrentTime = Math.floor(
-    order_date_milliseconds + etaFromOrder - currentTimeInMilliseconds
-  );
+  const orderBeenDelivered = 0;
 
-  console.log('eta from placed order', ETA);
-  console.log('placed', order_date_milliseconds);
-  console.log('now   ', currentTimeInMilliseconds);
-  console.log('diffrence in millisec', timestampFromOrderPlacedToCurrentTime);
+  for (const order of allOrders) {
+    const currentTimestamp = Date.now(); // todays date and time converted to => timestamp in milliseconds
+    const orderETATimestamp = order.eta * 1000 * 60; // example eta: 5 => 300000 milliseconds
+    const orderDateTimestamp = new Date(order.order_date).getTime(); // returns the order_date timestamp in milliseconds, order example: (2023-04-10 10:25:25 => 1681115125000)
 
-  // convert milliseconds to minutes
-  let gapInMinutes = Math.floor(
-    timestampFromOrderPlacedToCurrentTime / (1000 * 60)
-  );
-  console.log('gapInMinutes', gapInMinutes);
+    // Return the current gap/remaining time from the original timestamp of orderDateTimestamp and original orderETATimestamp together. Then subtract the currentTimestamp to get the new remaining time.
+    const gapFromOrderPlacedToCurrentTimestamp = Math.floor(
+      orderDateTimestamp + orderETATimestamp - currentTimestamp
+    );
 
-  // for (const order of allOrders) {
-  //   if (ETA > gapInMinutes) {
-  //     console.log('gapInMinutes > ETA', gapInMinutes);
-  //     await database.update(
-  //       { order_number: order.order_number },
-  //       { $set: { eta: gapInMinutes } },
-  //       {}
-  //     );
-  //   }
-  //   if (gapInMinutes <= 0) {
-  //     console.log('gapInMinutes <= 0', gapInMinutes);
-  //     await database.update(
-  //       { order_number: order.order_number },
-  //       { $set: { eta: 'Delivered' } },
-  //       {}
-  //     );
-  //   }
-  // }
+    // Convert the milliseconds timestamp to minutes. ( 1 second = 1000 milliseconds | 1 min = 60 seconds | (1000 * 60) = 60000 milliseconds )
+    let gapInMinutes = Math.floor(
+      gapFromOrderPlacedToCurrentTimestamp / (1000 * 60)
+    );
+
+    // When the gapInMinutes (currentTimestamp) gets bigger it will get closer to the order_date + eta.
+    if (gapInMinutes > orderBeenDelivered) {
+      await database.update(
+        { order_number: order.order_number },
+        { $set: { eta_left: gapInMinutes } }, // update the eta_left based on the original eta
+        {}
+      );
+    }
+    if (gapInMinutes <= orderBeenDelivered) {
+      await database.update(
+        { order_number: order.order_number },
+        { $set: { eta_left: 'Delivered' } },
+        {}
+      );
+    }
+  }
 }
 
 module.exports = {
@@ -99,5 +70,5 @@ module.exports = {
   addToOrder,
   removeItem,
   database,
-  ETA_stamp, // ! test
+  updateDeliveryETA,
 };
