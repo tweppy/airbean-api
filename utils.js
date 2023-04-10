@@ -1,4 +1,4 @@
-let { database } = require('./model/beans/orderModel');
+let { database } = require("./model/beans/orderModel");
 
 async function getTotalSum() {
   const order = await database.find({ price: { $gt: 1 } });

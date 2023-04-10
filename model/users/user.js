@@ -1,6 +1,6 @@
-const nedb = require('nedb-promises');
+const nedb = require("nedb-promises");
 const userDatabase = new nedb({
-  filename: './database/users.db',
+  filename: "./database/users.db",
   autoload: true,
 });
 
