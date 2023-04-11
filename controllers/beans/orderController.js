@@ -82,6 +82,7 @@ async function getOrderInformation(req, res) {
     order_number: findOrder[0].order_number,
     eta: findOrder[0].eta_left,
     order_date: findOrder[0].order_date,
+    user_id: findOrder[0].user_id,
   };
   res.status(200).json(result);
 }
