@@ -23,7 +23,6 @@ async function checkUsernameAndEmail(req, res, next) {
 async function checkUserAndPassword(req, res, next) {
   const { username, email, password } = await req.body;
   const users = await getAllUsers();
-  console.log(users);
   for (const user of users) {
     if (
       (username === user.username || email === user.email) &&

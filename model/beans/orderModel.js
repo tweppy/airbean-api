@@ -1,6 +1,5 @@
-const nedb = require('nedb-promises');
-const database = new nedb({ filename: './database/order.db', autoload: true });
-const ONE_MINUTE = 60000; // 60000 milliseconds = 1 min
+const nedb = require("nedb-promises");
+const database = new nedb({ filename: "./database/order.db", autoload: true });
 
 async function getOrder() {
   return await database.find({});
@@ -23,7 +22,7 @@ async function removeItem(id) {
   } else {
     return {
       success: false,
-      msg: 'Item not found',
+      msg: "Item not found",
     };
   }
 }
@@ -58,7 +57,7 @@ async function updateDeliveryETA() {
     if (gapInMinutes <= orderBeenDelivered) {
       await database.update(
         { order_number: order.order_number },
-        { $set: { eta_left: 'Delivered' } },
+        { $set: { eta_left: "Delivered" } },
         {}
       );
     }

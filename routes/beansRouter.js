@@ -6,7 +6,7 @@ const {
   get,
   add,
   remove,
-  placeOrderAsLoginUser,
+  placeOrderAsLoggedInUser,
   getOrderInformation,
 } = require("../controllers/beans/orderController");
 const {
@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
 });
 router.get("/order", get);
 router.post("/order", checkBody, checkValidItem, add);
-router.post("/order/checkout", checkUserID, placeOrderAsLoginUser);
+router.post("/order/checkout", checkUserID, checkValidItem, placeOrderAsLoggedInUser);
 router.get(
   "/order/status/:order_number",
   checkOrderNumber,
