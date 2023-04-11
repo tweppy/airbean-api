@@ -1,4 +1,4 @@
-const { getAllUsers } = require('../../model/users/user');
+const { getAllUsers } = require("../../model/users/user");
 
 async function checkUsernameAndEmail(req, res, next) {
   const { username, email } = await req.body;
@@ -10,8 +10,8 @@ async function checkUsernameAndEmail(req, res, next) {
         status: false,
         message: `${
           user.username === username
-            ? 'Username already exist'
-            : 'Email already exists'
+            ? "Username already exist"
+            : "Email already exists"
         }`,
       };
       return res.status(404).json(result);
@@ -34,7 +34,7 @@ async function checkUserAndPassword(req, res, next) {
   }
   const result = {
     status: false,
-    message: 'User not found! ⛔️',
+    message: "User not found! ⛔️",
   };
   return res.status(400).json(result);
 }
@@ -49,8 +49,8 @@ async function checkUserID(req, res, next) {
   } else {
     const result = {
       status: false,
-      user: 'Denied',
-      message: 'Invalid user-ID! ⛔️',
+      user: "Denied",
+      message: "Invalid user-ID! ⛔️",
     };
     res.status(401).json(result);
   }
@@ -66,12 +66,13 @@ async function checkValidUserID(req, res, next) {
   } else {
     const result = {
       status: false,
-      user: 'Denied',
-      message: 'Invalid user-ID! ⛔️',
+      user: "Denied",
+      message: "Invalid user-ID! ⛔️",
     };
     res.status(401).json(result);
   }
 }
+
 module.exports = {
   checkUsernameAndEmail,
   checkUserAndPassword,

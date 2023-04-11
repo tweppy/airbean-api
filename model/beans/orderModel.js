@@ -17,7 +17,7 @@ async function removeItem(id) {
   if (itemToRemove) {
     return {
       success: true,
-      msg: `Item with id: "${id}" removed from order`,
+      msg: `Item with id: ${id} removed from order`,
       order: order,
     };
   } else {
