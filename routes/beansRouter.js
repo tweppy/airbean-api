@@ -20,7 +20,12 @@ router.get("/", (req, res) => {
 });
 router.get("/order", get);
 router.post("/order", checkBody, checkValidItem, add);
-router.post("/order/checkout", checkUserID, checkValidItem, placeOrderAsLoggedInUser);
+router.post(
+  "/order/checkout",
+  checkUserID,
+  checkValidItem,
+  placeOrderAsLoggedInUser
+);
 router.get(
   "/order/status/:order_number",
   checkOrderNumber,
