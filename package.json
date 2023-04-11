@@ -4,13 +4,14 @@
   "description": "Grupparbete Airbean API - JS22 - Backend grunder",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "express": "^4.18.2",
-    "nedb-promises": "^6.2.1"
+    "nedb-promises": "^6.2.1",
+    "uuid": "^9.0.0"
   }
 }
