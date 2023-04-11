@@ -4,10 +4,10 @@ const {
   removeItem,
   database,
   updateDeliveryETA,
-} = require("../../model/beans/orderModel");
-const { getTotalSum, createETA } = require("../../utils");
+} = require('../../model/beans/orderModel');
+const { getTotalSum, createETA } = require('../../utils');
 
-const { v4: uuidv4 } = require("uuid");
+const { v4: uuidv4 } = require('uuid');
 
 async function get(req, res) {
   const order = await getOrder();
@@ -18,13 +18,13 @@ async function get(req, res) {
 
 async function add(req, res) {
   const { title, price } = req.body;
-  const order_date = new Date().toLocaleString("sv-SE");
+  const order_date = new Date().toLocaleString('sv-SE');
   const eta = createETA();
   const eta_left = eta;
 
   await addToOrder({
     ...req.body,
-    user_id: "Guest",
+    user_id: 'Guest',
     order_number: uuidv4(),
     order_date,
     eta: eta,
@@ -48,7 +48,7 @@ async function remove(req, res) {
 
 function placeOrderAsLoggedInUser(req, res) {
   const { user_id, title, price } = req.body;
-  const order_date = new Date().toLocaleString("sv-SE");
+  const order_date = new Date().toLocaleString('sv-SE');
   const eta = createETA();
   const eta_left = eta;
 
@@ -68,7 +68,7 @@ function placeOrderAsLoggedInUser(req, res) {
     user_id,
     eta,
     order_date,
-    order: { title, price },
+    order: [{ title, price }],
   };
   res.status(200).json(result);
 }

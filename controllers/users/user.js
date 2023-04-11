@@ -1,13 +1,13 @@
-const { database } = require("../../model/beans/orderModel");
-const { v4: uuidv4 } = require("uuid");
-const { insertUserToDatabase, getAllUsers } = require("../../model/users/user");
+const { database, updateDeliveryETA } = require('../../model/beans/orderModel');
+const { v4: uuidv4 } = require('uuid');
+const { insertUserToDatabase, getAllUsers } = require('../../model/users/user');
 
 function signupUser(req, res) {
   const { username, email, password } = req.body;
   if (username && email && password) {
     const result = {
       status: true,
-      message: "User successfully created! ✅",
+      message: 'User successfully created! ✅',
     };
     insertUserToDatabase({
       username,
@@ -19,7 +19,7 @@ function signupUser(req, res) {
   } else {
     const result = {
       status: false,
-      message: "Something went wrong!",
+      message: 'Something went wrong!',
     };
     res.status(400).json(result);
   }
@@ -35,7 +35,7 @@ async function loginUser(req, res) {
     ) {
       const result = {
         status: true,
-        user: "Approved",
+        user: 'Approved',
         user_id: user.user_id,
       };
       return res.status(200).json(result);
@@ -43,7 +43,7 @@ async function loginUser(req, res) {
   }
   const result = {
     status: false,
-    message: "Please try again",
+    message: 'Please try again',
   };
   return res.status(400).json(result);
 }
@@ -59,6 +59,7 @@ async function userOrderHistory(req, res) {
   );
 
   if (findUser) {
+    await updateDeliveryETA();
     const result = {
       status: true,
       user_id: findUser?.user_id,
@@ -70,7 +71,7 @@ async function userOrderHistory(req, res) {
   } else {
     const result = {
       status: false,
-      message: "User authentication failed! ⛔️",
+      message: 'User authentication failed! ⛔️',
     };
     res.status(400).json(result);
   }
